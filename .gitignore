@@ -1,0 +1,6 @@
+/var/
+/vendor/
+
+/.phpactor.json
+/index.zip
+

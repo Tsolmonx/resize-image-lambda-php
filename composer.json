@@ -1,0 +1,14 @@
+{
+    "name" : "phpLambdaCacheImage"
+    "require": {
+        "bref/bref": "^2.1",
+        "aws/aws-sdk-php": "^3.281",
+        "intervention/image": "^2.7"
+    },
+    "authors" : [
+        {
+            "name" : "tsolmon",
+            "email" : "tsolmondark@gmail.com"
+        }
+    ]
+}
