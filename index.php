@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -31,7 +31,7 @@ return function($event) {
     ];
 
     if (!$region || !$key || !$bucket) {
-        error_log('Not enough parameter');
+        error_log('Not enough parameters');
         return;
     }
 
@@ -40,21 +40,20 @@ return function($event) {
         'version' => 'latest',
     ]);
 
-    $path = $key;
     $obj = $s3client->getObject([
         'Bucket' => $bucket,
-        'Key' => $path
+        'Key' => $key
     ]);
 
     if (!$obj) return 'Image does not exist';
 
     $imageContent = $obj['Body']->getContents();
 
-    $fileExtension = pathinfo($path, PATHINFO_EXTENSION);
-    $newPath = str_replace('.' . $fileExtension, '.webp', $path);
+    $fileExtension = pathinfo($key, PATHINFO_EXTENSION);
+    $newPath = dirname($key) . '/' . pathinfo($key, PATHINFO_FILENAME) . '.webp';
 
     foreach ($filters as $filter) {
-        $objectKey = 'cache/'. $filter['name']. "/". basename($newPath);
+        $objectKey = 'cache/'. $filter['name']. "/". $newPath;
 
         if ($s3client->doesObjectExist($bucket, $objectKey, [])) {
             error_log($objectKey . ' Object already exists');
@@ -66,12 +65,12 @@ return function($event) {
             $image->fit((int) $filter['h'], (int) $filter['w']);
             $image->encode('webp', 75);
 
-            $cachePath = '/tmp/cache/' . $filter['name'] . "/";
+            $cachePath = '/tmp/cache/' . $filter['name'] . "/" . dirname($newPath);
             if (!file_exists($cachePath)) {
-              mkdir($cachePath, 0777, true);
+                mkdir($cachePath, 0777, true);
             }
 
-            $fullPath = $cachePath . basename($newPath);
+            $fullPath = $cachePath . '/' . basename($newPath);
             error_log($fullPath);
             $image->save($fullPath, 75, 'webp');
 
