@@ -15,18 +15,18 @@ return function($event) {
     $filters = [
         [
             "name" => "thumbnail",
+            "h" => 100,
+            "w" => 120
+        ],
+        [
+            "name" => "medium",
             "h" => 300,
             "w" => 300
         ],
         [
-            "name" => "medium",
-            "h" => 650,
-            "w" => 650
-        ],
-        [
             "name" => "large",
-            "h" => 1200,
-            "w" => 1200
+            "h" => 800,
+            "w" => 600
         ]
     ];
 
