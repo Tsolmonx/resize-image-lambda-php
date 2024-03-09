@@ -16,7 +16,7 @@ return function ($event) {
     $filters = [
         [
             "name" => "thumbnail",
-            "h" => 100,
+            "h" => 120,
             "w" => 120,
         ],
         [
@@ -27,7 +27,7 @@ return function ($event) {
         [
             "name" => "large",
             "h" => 800,
-            "w" => 600,
+            "w" => 800,
         ],
     ];
 
@@ -72,7 +72,7 @@ return function ($event) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
-            $image->encode("webp", 75);
+            $image->encode("webp", 100);
 
             $cachePath =
                 "/tmp/cache/" . $filter["name"] . "/" . dirname($newPath);
@@ -82,7 +82,7 @@ return function ($event) {
 
             $fullPath = $cachePath . "/" . basename($newPath);
             error_log($fullPath);
-            $image->save($fullPath, 75, "webp");
+            $image->save($fullPath, 100, "webp");
 
             $res = $s3client->putObject([
                 "Bucket" => $bucket,
